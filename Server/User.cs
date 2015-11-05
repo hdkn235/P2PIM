@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Net;
 
-namespace Server
+namespace P2PIM.Server
 {
     // 用户类
     public class User

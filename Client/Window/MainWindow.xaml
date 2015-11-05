@@ -1,0 +1,42 @@
+﻿<Window x:Class="P2PIM.Client.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:P2PIM.Client"
+        Title="MainWindow" Height="595" Width="241" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type local:User}" x:Key="UserTemple">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="40"></ColumnDefinition>
+                    <ColumnDefinition Width="150"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Image Source="{Binding Path=HeadPath}" ></Image>
+                <StackPanel Orientation="Horizontal" Grid.Column="1" Margin="6,2,2,2">
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="{Binding Path=Name}"  Height="25" HorizontalAlignment="Left" ></TextBlock>
+                        <TextBlock Text="{Binding Path=Autograph}"  Height="20" HorizontalAlignment="Left"></TextBlock>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50" />
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50" />
+        </Grid.RowDefinitions>
+        <Label Grid.Row="0" Height="28" HorizontalAlignment="Left" Margin="12,12,0,0" Name="label1" VerticalAlignment="Top" Content="昵称" />
+        <TreeView Grid.Row="1" x:Name="tvUsers" ItemTemplate="{StaticResource UserTemple}" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch"  />
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            <Button Content="设置" Grid.Column="0" Height="23" Name="btnConfig"  Width="60" Click="btnConfig_Click" />
+            <Button Content="刷新" Grid.Column="1" Height="23" Name="btnRefresh"  Width="60" Click="btnRefresh_Click" />
+            <Button Content="注销" Grid.Column="2" Height="23" Name="btnLogout"  Width="60" Click="btnLogout_Click" />
+        </Grid>
+    </Grid>
+</Window>

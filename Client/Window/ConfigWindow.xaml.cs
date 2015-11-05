@@ -14,7 +14,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 
-namespace Client
+namespace P2PIM.Client
 {
     /// <summary>
     /// ConfigWindow.xaml 的交互逻辑

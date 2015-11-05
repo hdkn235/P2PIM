@@ -5,7 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Windows;
 
-namespace Server
+namespace P2PIM.Server
 {
     /// <summary>
     /// App.xaml 的交互逻辑

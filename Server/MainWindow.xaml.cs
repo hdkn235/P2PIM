@@ -16,7 +16,7 @@ using System.Net.Sockets;
 using System.Threading;
 using System.IO;
 
-namespace Server
+namespace P2PIM.Server
 {
     /// <summary>
     /// MainWindow.xaml 的交互逻辑
@@ -85,7 +85,7 @@ namespace Server
                             User user = new User(splitstring[1], clientIPEndPoint);
                             userList.Add(user);
                             AddMsgToLog(string.Format("用户{0}({1})加入", user.GetName(), user.GetIPEndPoint()));
-                            string sendMsg = "Accept," + tcpPort.ToString();
+                            string sendMsg = "accept," + tcpPort.ToString();
                             SendToClient(user, sendMsg);
                             AddMsgToLog(string.Format("向{0}({1})发出：[{2}]", user.GetName(), user.GetIPEndPoint(), sendMsg));
                             foreach (User otherUser in userList)
@@ -96,6 +96,22 @@ namespace Server
                                 }
                             }
                             AddMsgToLog(string.Format("广播：[{0}]", message));
+                            break;
+                        case "logout":
+                            for (int i = 0; i < userList.Count; i++)
+                            {
+                                if (userList[i].GetName() == splitstring[1])
+                                {
+                                    AddMsgToLog(string.Format("用户{0}({1})退出", userList[i].GetName(), userList[i].GetIPEndPoint()));
+                                    userList.RemoveAt(i); // 移除用户
+                                }
+                            }
+                            for (int i = 0; i < userList.Count; i++)
+                            {
+                                // 广播注销消息
+                                SendToClient(userList[i], message);
+                            }
+                            AddMsgToLog(string.Format("广播:[{0}]", message));
                             break;
                     }
                 }

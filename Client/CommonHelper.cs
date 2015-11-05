@@ -7,7 +7,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using System.Xml;
 
-namespace Client
+namespace P2PIM.Client
 {
     public class CommonHelper
     {

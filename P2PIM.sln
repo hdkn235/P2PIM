@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "Client\Client.csproj", "{F7B707C3-1DEE-4A45-85BC-88CB7DFC2334}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "P2PIM.Client", "Client\P2PIM.Client.csproj", "{F7B707C3-1DEE-4A45-85BC-88CB7DFC2334}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server", "Server\Server.csproj", "{373DCF06-8AAD-4B03-8C94-8AE4910B26DB}"
 EndProject

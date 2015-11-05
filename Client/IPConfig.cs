@@ -5,7 +5,7 @@ using System.Text;
 using System.Configuration;
 using System.Reflection;
 
-namespace Client
+namespace P2PIM.Client
 {
     [Serializable]
     public sealed class IPConfig
@@ -67,7 +67,7 @@ namespace Client
             foreach (PropertyInfo pt in t.GetProperties())
             {
                 string name = pt.Name;
-                string value = pt.GetValue(ipConfig, null).ToString();
+                string value = pt.GetValue(ipConfig, null) == null ? string.Empty : pt.GetValue(ipConfig, null).ToString();
                 if (ConfigurationManager.AppSettings[name] == null)
                 {
                     cfa.AppSettings.Settings.Add(name, value);

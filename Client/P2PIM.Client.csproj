@@ -8,7 +8,7 @@
     <ProjectGuid>{F7B707C3-1DEE-4A45-85BC-88CB7DFC2334}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Client</RootNamespace>
+    <RootNamespace>P2PIM.Client</RootNamespace>
     <AssemblyName>Client</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>
@@ -58,11 +58,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="ConfigWindow.xaml">
+    <Page Include="Window\ConfigWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainWindow.xaml">
+    <Page Include="Window\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -71,13 +71,12 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="CommonHelper.cs" />
-    <Compile Include="ConfigWindow.xaml.cs">
+    <Compile Include="Window\ConfigWindow.xaml.cs">
       <DependentUpon>ConfigWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Friend.cs" />
-    <Compile Include="FriendList.cs" />
+    <Compile Include="User.cs" />
     <Compile Include="IPConfig.cs" />
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="Window\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
@@ -106,6 +105,13 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Heads\h1.png" />
+    <Resource Include="Resources\Heads\h2.png" />
+    <Resource Include="Resources\Heads\h3.png" />
+    <Resource Include="Resources\Heads\h4.png" />
+    <Resource Include="Resources\Heads\h5.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

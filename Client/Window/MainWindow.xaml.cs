@@ -15,8 +15,9 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.IO;
+using System.Collections.ObjectModel;
 
-namespace Client
+namespace P2PIM.Client
 {
     /// <summary>
     /// MainWindow.xaml 的交互逻辑
@@ -39,12 +40,22 @@ namespace Client
             InitializeComponent();
         }
 
+        /// <summary>
+        /// 设置按钮
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnConfig_Click(object sender, RoutedEventArgs e)
         {
             ConfigWindow cw = new ConfigWindow();
             cw.ShowDialog();
         }
 
+        /// <summary>
+        /// 刷新按钮
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnRefresh_Click(object sender, RoutedEventArgs e)
         {
             IPAddress clientIP = IPAddress.Parse(ipConfig.LocalIP);
@@ -88,7 +99,7 @@ namespace Client
                     string[] splitString = message.Split(',');
                     switch (splitString[0])
                     {
-                        case "Accept":
+                        case "accept":
                             try
                             {
                                 tcpClient = new TcpClient();
@@ -131,27 +142,67 @@ namespace Client
                     userListstring = binaryReader.ReadString();
                     if (userListstring.EndsWith("end"))
                     {
-                        string[] splitstring = userListstring.Split(';');
-                        for (int i = 0; i < splitstring.Length - 1; i++)
-                        {
-                            AddUserToTreeView(splitstring[i]);
-                        }
-
+                        AddUserToTreeView(userListstring);
                         binaryReader.Close();
                         tcpClient.Close();
                         break;
                     }
                 }
-                catch 
+                catch
                 {
                     break;
                 }
             }
         }
 
-        private void AddUserToTreeView(string userInfo)
-        { 
-            
+        /// <summary>
+        /// 添加用户到列表中
+        /// </summary>
+        /// <param name="userInfo"></param>
+        private void AddUserToTreeView(string userListStr)
+        {
+            string[] splitstring = userListStr.Split(';');
+            ObservableCollection<User> users = new ObservableCollection<User>();
+            for (int i = 0; i < splitstring.Length - 1; i++)
+            {
+                string[] userStr = splitstring[i].Split(',');
+                User user = new User();
+                user.Name = userStr[0];
+                user.IPAndPort = userStr[1];
+                user.HeadPath = "/Resources/Heads/h1.png";
+                user.Autograph = "非一般的感觉";
+                users.Add(user);
+            }
+
+            Action<ObservableCollection<User>> setTVItemsSource = new Action<ObservableCollection<User>>(SetTVItemsSource);
+            tvUsers.Dispatcher.BeginInvoke(setTVItemsSource, users);
+        }
+
+        /// <summary>
+        /// 绑定用户列表
+        /// </summary>
+        /// <param name="users"></param>
+        private void SetTVItemsSource(ObservableCollection<User> users)
+        {
+            this.tvUsers.ItemsSource = users;
+        }
+
+        private void btnLogout_Click(object sender, RoutedEventArgs e)
+        {
+            Logout();
+            tvUsers.Items.Clear();
+        }
+
+        /// <summary>
+        /// 用户退出
+        /// </summary>
+        private void Logout()
+        {
+            // 匿名发送
+            sendUdpClient = new UdpClient();
+            //启动发送线程
+            Thread sendThread = new Thread(SendMessage);
+            sendThread.Start(string.Format("logout,{0},{1}", ipConfig.UserName, clientIPEndPoint));
         }
     }
 }
