@@ -2,9 +2,10 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:P2PIM.Client"
-        Title="MainWindow" Height="595" Width="241" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen">
+        xmlns:model="clr-namespace:P2PIM.Model;assembly=P2PIM.Model"
+        Title="MainWindow" Height="595" Width="241" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen" Closed="Window_Closed">
     <Window.Resources>
-        <DataTemplate DataType="{x:Type local:User}" x:Key="UserTemple">
+        <DataTemplate DataType="{x:Type model:User}" x:Key="UserTemple">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="40"></ColumnDefinition>

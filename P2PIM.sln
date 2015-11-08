@@ -1,9 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "P2PIM.Client", "Client\P2PIM.Client.csproj", "{F7B707C3-1DEE-4A45-85BC-88CB7DFC2334}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "P2PIM.Model", "P2PIM.Model\P2PIM.Model.csproj", "{91D96864-89F2-413F-9D9F-BCEFE2551675}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server", "Server\Server.csproj", "{373DCF06-8AAD-4B03-8C94-8AE4910B26DB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "P2PIM.Client", "P2PIM.Client\P2PIM.Client.csproj", "{F7B707C3-1DEE-4A45-85BC-88CB7DFC2334}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "P2PIM.Server", "P2PIM.Server\P2PIM.Server.csproj", "{373DCF06-8AAD-4B03-8C94-8AE4910B26DB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "P2PIM.Common", "P2PIM.Common\P2PIM.Common.csproj", "{B09A9720-28D0-4EEC-910D-6FA908BBD908}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,16 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{91D96864-89F2-413F-9D9F-BCEFE2551675}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91D96864-89F2-413F-9D9F-BCEFE2551675}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91D96864-89F2-413F-9D9F-BCEFE2551675}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{91D96864-89F2-413F-9D9F-BCEFE2551675}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{91D96864-89F2-413F-9D9F-BCEFE2551675}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{91D96864-89F2-413F-9D9F-BCEFE2551675}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91D96864-89F2-413F-9D9F-BCEFE2551675}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91D96864-89F2-413F-9D9F-BCEFE2551675}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{91D96864-89F2-413F-9D9F-BCEFE2551675}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{91D96864-89F2-413F-9D9F-BCEFE2551675}.Release|x86.ActiveCfg = Release|Any CPU
 		{F7B707C3-1DEE-4A45-85BC-88CB7DFC2334}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{F7B707C3-1DEE-4A45-85BC-88CB7DFC2334}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
 		{F7B707C3-1DEE-4A45-85BC-88CB7DFC2334}.Debug|Mixed Platforms.Build.0 = Debug|x86
@@ -35,6 +49,16 @@ Global
 		{373DCF06-8AAD-4B03-8C94-8AE4910B26DB}.Release|Mixed Platforms.Build.0 = Release|x86
 		{373DCF06-8AAD-4B03-8C94-8AE4910B26DB}.Release|x86.ActiveCfg = Release|x86
 		{373DCF06-8AAD-4B03-8C94-8AE4910B26DB}.Release|x86.Build.0 = Release|x86
+		{B09A9720-28D0-4EEC-910D-6FA908BBD908}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B09A9720-28D0-4EEC-910D-6FA908BBD908}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B09A9720-28D0-4EEC-910D-6FA908BBD908}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{B09A9720-28D0-4EEC-910D-6FA908BBD908}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{B09A9720-28D0-4EEC-910D-6FA908BBD908}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B09A9720-28D0-4EEC-910D-6FA908BBD908}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B09A9720-28D0-4EEC-910D-6FA908BBD908}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B09A9720-28D0-4EEC-910D-6FA908BBD908}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{B09A9720-28D0-4EEC-910D-6FA908BBD908}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{B09A9720-28D0-4EEC-910D-6FA908BBD908}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

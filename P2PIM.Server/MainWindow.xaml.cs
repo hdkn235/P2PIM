@@ -15,6 +15,9 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.IO;
+using P2PIM.Model;
+using Newtonsoft.Json;
+using P2PIM.Common;
 
 namespace P2PIM.Server
 {
@@ -46,19 +49,19 @@ namespace P2PIM.Server
             receiveUdpClient = new UdpClient(serverIPEndPoint);
             Thread receiveThread = new Thread(ReceiveMessage);
             receiveThread.Start();
+
             btnStart.IsEnabled = false;
             btnStop.IsEnabled = true;
 
-            // 随机指定监听端口
+            //随机指定TCP监听端口
             Random random = new Random();
             tcpPort = random.Next(int.Parse(txtServerPort.Text) + 1, 65536);
-
             tcpListener = new TcpListener(serverIP, tcpPort);
             tcpListener.Start();
 
             Thread listenThread = new Thread(ListenClientConnect);
             listenThread.Start();
-            AddMsgToLog(string.Format("服务器线程{0}启动，监听端口{1}", serverIPEndPoint, tcpPort));
+            AddMsgToLog(string.Format("服务器线程{0}启动,TCP监听端口{1},UDP监听端口{2}", serverIPEndPoint, tcpPort,txtServerPort.Text));
         }
 
         /// <summary>
@@ -76,34 +79,43 @@ namespace P2PIM.Server
 
                     AddMsgToLog(string.Format("{0}:{1}", remoteIPEndPoint, message));
 
-                    string[] splitstring = message.Split(',');
-                    string[] splitsubstring = splitstring[2].Split(':');
-                    IPEndPoint clientIPEndPoint = new IPEndPoint(IPAddress.Parse(splitsubstring[0]), int.Parse(splitsubstring[1]));
-                    switch (splitstring[0])
+                    //string[] splitstring = message.Split(',');
+                    //string[] splitsubstring = splitstring[2].Split(':');
+                    //IPEndPoint clientIPEndPoint = new IPEndPoint(IPAddress.Parse(splitsubstring[0]), int.Parse(splitsubstring[1]));
+
+                    UserDTO dto = JsonConvert.DeserializeObject<UserDTO>(message,JsonHelper.GetIPJsonSettings());
+                    switch (dto.LoginState)
                     {
-                        case "login":
-                            User user = new User(splitstring[1], clientIPEndPoint);
+                        case UserLoginState.Login:
+                            //User user = new User(splitstring[1], clientIPEndPoint);
+                            User user = dto.LoginUser;
                             userList.Add(user);
-                            AddMsgToLog(string.Format("用户{0}({1})加入", user.GetName(), user.GetIPEndPoint()));
-                            string sendMsg = "accept," + tcpPort.ToString();
+                            AddMsgToLog(string.Format("用户{0}({1})加入", user.Name, user.IPAndPort));
+                            //string sendMsg = "accept," + tcpPort.ToString();
+                            string sendMsg = JsonConvert.SerializeObject(new UserDTO
+                            {
+                                LoginState = UserLoginState.Accept,
+                                ServerTcpPort = tcpPort
+                            });
                             SendToClient(user, sendMsg);
-                            AddMsgToLog(string.Format("向{0}({1})发出：[{2}]", user.GetName(), user.GetIPEndPoint(), sendMsg));
+                            AddMsgToLog(string.Format("向{0}({1})发出：[{2}]", user.Name, user.IPAndPort, sendMsg));
                             foreach (User otherUser in userList)
                             {
-                                if (otherUser.GetName() != user.GetName())
+                                if (otherUser.ID != user.ID)
                                 {
                                     SendToClient(otherUser, message);
                                 }
                             }
                             AddMsgToLog(string.Format("广播：[{0}]", message));
                             break;
-                        case "logout":
+                        case UserLoginState.Logout:
                             for (int i = 0; i < userList.Count; i++)
                             {
-                                if (userList[i].GetName() == splitstring[1])
+                                if (userList[i].ID == dto.LoginUser.ID)
                                 {
-                                    AddMsgToLog(string.Format("用户{0}({1})退出", userList[i].GetName(), userList[i].GetIPEndPoint()));
-                                    userList.RemoveAt(i); // 移除用户
+                                    AddMsgToLog(string.Format("用户{0}({1})退出", userList[i].Name, userList[i].IPAndPort));
+                                    // 移除用户
+                                    userList.RemoveAt(i);
                                 }
                             }
                             for (int i = 0; i < userList.Count; i++)
@@ -138,7 +150,7 @@ namespace P2PIM.Server
         {
             sendUdpClient = new UdpClient(0);
             byte[] sendBytes = Encoding.Unicode.GetBytes(msg);
-            IPEndPoint remoteIPEndPoint = user.GetIPEndPoint();
+            IPEndPoint remoteIPEndPoint = user.IPAndPort;
             sendUdpClient.Send(sendBytes, sendBytes.Length, remoteIPEndPoint);
             sendUdpClient.Close();
         }
@@ -167,13 +179,14 @@ namespace P2PIM.Server
         private void SendData(object userClient)
         {
             TcpClient newUserClient = (TcpClient)userClient;
-            userListstring = null;
-            for (int i = 0; i < userList.Count; i++)
-            {
-                userListstring += userList[i].GetName() + ","
-                    + userList[i].GetIPEndPoint().ToString() + ";";
-            }
-            userListstring += "end";
+            //userListstring = null;
+            //for (int i = 0; i < userList.Count; i++)
+            //{
+            //    userListstring += userList[i].Name + ","
+            //        + userList[i].IPAndPort.ToString() + ";";
+            //}
+            //userListstring += "end";
+            userListstring = JsonConvert.SerializeObject(userList,JsonHelper.GetIPJsonSettings());
 
             networkStream = newUserClient.GetStream();
             binaryWriter = new BinaryWriter(networkStream);
@@ -194,6 +207,7 @@ namespace P2PIM.Server
         private void Window_Closed(object sender, EventArgs e)
         {
             receiveUdpClient.Close();
+            tcpListener.Stop();
         }
     }
 }

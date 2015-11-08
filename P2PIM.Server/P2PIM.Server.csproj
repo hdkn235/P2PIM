@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{F7B707C3-1DEE-4A45-85BC-88CB7DFC2334}</ProjectGuid>
+    <ProjectGuid>{373DCF06-8AAD-4B03-8C94-8AE4910B26DB}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>P2PIM.Client</RootNamespace>
-    <AssemblyName>Client</AssemblyName>
+    <RootNamespace>P2PIM.Server</RootNamespace>
+    <AssemblyName>P2PIM.Server</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
@@ -37,10 +37,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\P2PIM.Libs\Json.NET\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -58,11 +59,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="Window\ConfigWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Window\MainWindow.xaml">
+    <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -70,13 +67,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="CommonHelper.cs" />
-    <Compile Include="Window\ConfigWindow.xaml.cs">
-      <DependentUpon>ConfigWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="User.cs" />
-    <Compile Include="IPConfig.cs" />
-    <Compile Include="Window\MainWindow.xaml.cs">
+    <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
@@ -107,11 +98,14 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\Heads\h1.png" />
-    <Resource Include="Resources\Heads\h2.png" />
-    <Resource Include="Resources\Heads\h3.png" />
-    <Resource Include="Resources\Heads\h4.png" />
-    <Resource Include="Resources\Heads\h5.png" />
+    <ProjectReference Include="..\P2PIM.Common\P2PIM.Common.csproj">
+      <Project>{B09A9720-28D0-4EEC-910D-6FA908BBD908}</Project>
+      <Name>P2PIM.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\P2PIM.Model\P2PIM.Model.csproj">
+      <Project>{91D96864-89F2-413F-9D9F-BCEFE2551675}</Project>
+      <Name>P2PIM.Model</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
