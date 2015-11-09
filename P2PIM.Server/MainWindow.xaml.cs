@@ -79,19 +79,13 @@ namespace P2PIM.Server
 
                     AddMsgToLog(string.Format("{0}:{1}", remoteIPEndPoint, message));
 
-                    //string[] splitstring = message.Split(',');
-                    //string[] splitsubstring = splitstring[2].Split(':');
-                    //IPEndPoint clientIPEndPoint = new IPEndPoint(IPAddress.Parse(splitsubstring[0]), int.Parse(splitsubstring[1]));
-
                     UserDTO dto = JsonConvert.DeserializeObject<UserDTO>(message,JsonHelper.GetIPJsonSettings());
                     switch (dto.LoginState)
                     {
                         case UserLoginState.Login:
-                            //User user = new User(splitstring[1], clientIPEndPoint);
                             User user = dto.LoginUser;
                             userList.Add(user);
                             AddMsgToLog(string.Format("用户{0}({1})加入", user.Name, user.IPAndPort));
-                            //string sendMsg = "accept," + tcpPort.ToString();
                             string sendMsg = JsonConvert.SerializeObject(new UserDTO
                             {
                                 LoginState = UserLoginState.Accept,
@@ -101,7 +95,7 @@ namespace P2PIM.Server
                             AddMsgToLog(string.Format("向{0}({1})发出：[{2}]", user.Name, user.IPAndPort, sendMsg));
                             foreach (User otherUser in userList)
                             {
-                                if (otherUser.ID != user.ID)
+                                if (otherUser.IPAndPort.ToString() != user.IPAndPort.ToString())
                                 {
                                     SendToClient(otherUser, message);
                                 }
@@ -179,13 +173,6 @@ namespace P2PIM.Server
         private void SendData(object userClient)
         {
             TcpClient newUserClient = (TcpClient)userClient;
-            //userListstring = null;
-            //for (int i = 0; i < userList.Count; i++)
-            //{
-            //    userListstring += userList[i].Name + ","
-            //        + userList[i].IPAndPort.ToString() + ";";
-            //}
-            //userListstring += "end";
             userListstring = JsonConvert.SerializeObject(userList,JsonHelper.GetIPJsonSettings());
 
             networkStream = newUserClient.GetStream();

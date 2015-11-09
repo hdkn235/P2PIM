@@ -37,6 +37,8 @@ namespace P2PIM.Client
         private string userListstring;
 
         private IPConfig ipConfig = IPConfig.GetInstance();
+        //登录用户
+        private User loginUser;
         //用户列表
         private ObservableCollection<User> users = new ObservableCollection<User>();
 
@@ -67,6 +69,7 @@ namespace P2PIM.Client
         {
             IPAddress clientIP = IPAddress.Parse(ipConfig.LocalIP);
             clientIPEndPoint = new IPEndPoint(clientIP, ipConfig.LocalPort);
+            loginUser = new User(ipConfig.UserName, clientIPEndPoint);
 
             receiveUdpClient = new UdpClient(clientIPEndPoint);
             Thread receiveThread = new Thread(ReceiveMessage);
@@ -74,13 +77,15 @@ namespace P2PIM.Client
 
             sendUdpClient = new UdpClient(0);
             Thread sendThread = new Thread(SendMessage);
-            //sendThread.Start(string.Format("login,{0},{1}", ipConfig.UserName, clientIPEndPoint));
             UserDTO dto = new UserDTO
             {
                 LoginState = UserLoginState.Login,
-                LoginUser = new User(ipConfig.UserName, clientIPEndPoint)
+                LoginUser = loginUser
             };
             sendThread.Start(JsonConvert.SerializeObject(dto, JsonHelper.GetIPJsonSettings()));
+
+            this.btnRefresh.IsEnabled = false;
+            this.btnLogout.IsEnabled = true;
         }
 
         /// <summary>
@@ -95,7 +100,6 @@ namespace P2PIM.Client
                 {
                     byte[] receiveBytes = receiveUdpClient.Receive(ref remoteIPEndPoint);
                     string message = Encoding.Unicode.GetString(receiveBytes, 0, receiveBytes.Length);
-                    //string[] splitString = message.Split(',');
                     UserDTO dto = JsonConvert.DeserializeObject<UserDTO>(message, JsonHelper.GetIPJsonSettings());
                     switch (dto.LoginState)
                     {
@@ -165,18 +169,6 @@ namespace P2PIM.Client
                     binaryReader.Close();
                     tcpClient.Close();
                     break;
-
-                    //if (userListstring.EndsWith("end"))
-                    //{
-                    //    string[] splitstring = userListstring.Split(';');
-                    //    for (int i = 0; i < splitstring.Length - 1; i++)
-                    //    {
-                    //        AddUserToTV(splitstring[i]);
-                    //    }
-                    //    binaryReader.Close();
-                    //    tcpClient.Close();
-                    //    break;
-                    //}
                 }
                 catch
                 {
@@ -193,17 +185,6 @@ namespace P2PIM.Client
         {
             Application.Current.Dispatcher.BeginInvoke(new Action(() =>
             {
-                //string[] userArr = userStr.Split(',');
-                //User user = new User
-                //{
-                //    Name = userArr[0],
-                //    IPAndPort = new IPEndPoint(
-                //        IPAddress.Parse(userArr[1].Split(':')[0]),
-                //        int.Parse(userArr[1].Split(':')[1])),
-                //    HeadPath = "/Resources/Heads/h1.png",
-                //    Autograph = "非一般的感觉"
-                //};
-
                 users.Add(user);
             }));
         }
@@ -235,6 +216,8 @@ namespace P2PIM.Client
         {
             Logout();
             this.users.Clear();
+            this.btnRefresh.IsEnabled = true;
+            this.btnLogout.IsEnabled = false;
         }
 
         /// <summary>
@@ -249,11 +232,14 @@ namespace P2PIM.Client
             UserDTO dto = new UserDTO
             {
                 LoginState = UserLoginState.Logout,
-                LoginUser = new User(ipConfig.UserName, clientIPEndPoint)
+                LoginUser = loginUser
             };
-            //sendThread.Start(string.Format("logout,{0},{1}", ipConfig.UserName, clientIPEndPoint));
             sendThread.Start(JsonConvert.SerializeObject(dto, JsonHelper.GetIPJsonSettings()));
-            receiveUdpClient.Close();
+
+            if (receiveUdpClient != null)
+            {
+                receiveUdpClient.Close();
+            }
         }
 
         /// <summary>
