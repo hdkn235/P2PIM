@@ -6,23 +6,23 @@
         <TabControl  HorizontalAlignment="Stretch" Margin="0,0,0,0" Name="tabControl1" VerticalAlignment="Stretch" >
             <TabItem Header="个人资料" Name="tabItem1">
                 <Grid  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="gridUser">
-                    <TextBlock Height="23" HorizontalAlignment="Left" Margin="115,30,0,0" Name="textBlock1" Text="用户名" VerticalAlignment="Top" />
-                    <TextBox Height="23" HorizontalAlignment="Left" Margin="175,27,0,0" Name="textBox1" VerticalAlignment="Top" Width="120" />
-                    <TextBlock Height="23" HorizontalAlignment="Left" Margin="103,73,0,0" Name="textBlock2" Text="个性签名" VerticalAlignment="Top" />
-                    <TextBox Height="23" HorizontalAlignment="Left" Margin="175,70,0,0" Name="textBox2" VerticalAlignment="Top" Width="120" />
-                    <TextBlock Height="23" HorizontalAlignment="Left" Margin="103,116,0,0" Name="textBlock3" Text="个性头像" VerticalAlignment="Top" />
+                    <TextBlock Height="23" HorizontalAlignment="Left" Margin="110,30,0,0" Name="textBlock1" Text="用户名" VerticalAlignment="Top" />
+                    <TextBox Height="23" HorizontalAlignment="Left" Margin="170,27,0,0" x:Name="txtName" Text="{Binding Path=Name, Mode=TwoWay}" VerticalAlignment="Top" Width="120" />
+                    <TextBlock Height="23" HorizontalAlignment="Left" Margin="98,73,0,0" Name="textBlock2" Text="个性签名" VerticalAlignment="Top" />
+                    <TextBox Height="23" HorizontalAlignment="Left" Margin="170,70,0,0" x:Name="txtHeadPath" Text="{Binding Path=HeadPath, Mode=TwoWay}" VerticalAlignment="Top" Width="120" />
+                    <TextBlock Height="23" HorizontalAlignment="Left" Margin="98,116,0,0" Name="textBlock3" Text="个性头像" VerticalAlignment="Top" />
                 </Grid>
             </TabItem>
-            <TabItem Header="服务器" Name="tabItem2">
-                <Grid  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="gridIP">
-                    <Label Content="服务器" Height="28" HorizontalAlignment="Left" Margin="84,48,0,0" Name="label1" VerticalAlignment="Top" VerticalContentAlignment="Center" />
-                    <Label Content="用户名" Height="28" HorizontalAlignment="Left" Margin="84,92,0,0" Name="label2" VerticalAlignment="Top" VerticalContentAlignment="Center" />
-                    <Label Content="本地IP" Height="28" HorizontalAlignment="Left" Margin="84,134,0,0" Name="label3" VerticalAlignment="Top" VerticalContentAlignment="Center" />
-                    <TextBox Height="23" HorizontalAlignment="Left" Margin="130,50,0,0" Name="txtServerIP" Text="{Binding Path=ServerIP, Mode=TwoWay}" VerticalAlignment="Top" Width="120" VerticalContentAlignment="Center" />
-                    <TextBox Height="23" HorizontalAlignment="Left" Margin="266,50,0,0" Name="txtServerPort" Text="{Binding Path=ServerPort, Mode=TwoWay}" VerticalAlignment="Top" Width="49" VerticalContentAlignment="Center" />
-                    <TextBox Height="23" HorizontalAlignment="Left" Margin="130,94,0,0" Name="txtUserName" Text="{Binding Path=UserName, Mode=TwoWay}" VerticalAlignment="Top" Width="120" VerticalContentAlignment="Center" />
-                    <TextBox Height="23" HorizontalAlignment="Left" Margin="130,136,0,0" Name="txtLocalIP" Text="{Binding Path=LocalIP, Mode=TwoWay}" VerticalAlignment="Top" Width="120" VerticalContentAlignment="Center" />
-                    <TextBox Height="23" HorizontalAlignment="Left" Margin="266,136,0,0" Name="txtLocalPort" Text="{Binding Path=LocalPort, Mode=TwoWay}" VerticalAlignment="Top" Width="49" VerticalContentAlignment="Center" />
+            <TabItem Header="系统设置" Name="tabItem2">
+                <Grid  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="gridSysConfig">
+                    <Label Content="服务器" Height="28" HorizontalAlignment="Left" Margin="84,40,0,0" Name="label1" VerticalAlignment="Top" VerticalContentAlignment="Center" />
+                    <Label Content="用户名" Height="28" HorizontalAlignment="Left" Margin="84,84,0,0" Name="label2" VerticalAlignment="Top" VerticalContentAlignment="Center" />
+                    <Label Content="本地IP" Height="28" HorizontalAlignment="Left" Margin="84,126,0,0" Name="label3" VerticalAlignment="Top" VerticalContentAlignment="Center" />
+                    <TextBox Height="23" HorizontalAlignment="Left" Margin="130,42,0,0" Name="txtServerIP" Text="{Binding Path=ServerIP, Mode=TwoWay}" VerticalAlignment="Top" Width="120" VerticalContentAlignment="Center" />
+                    <TextBox Height="23" HorizontalAlignment="Left" Margin="266,42,0,0" Name="txtServerPort" Text="{Binding Path=ServerPort, Mode=TwoWay}" VerticalAlignment="Top" Width="49" VerticalContentAlignment="Center" />
+                    <TextBox Height="23" HorizontalAlignment="Left" Margin="130,86,0,0" Name="txtUserName" Text="{Binding Path=UserName, Mode=TwoWay}" VerticalAlignment="Top" Width="120" VerticalContentAlignment="Center" />
+                    <TextBox Height="23" HorizontalAlignment="Left" Margin="130,128,0,0" Name="txtLocalIP" Text="{Binding Path=LocalIP, Mode=TwoWay}" VerticalAlignment="Top" Width="120" VerticalContentAlignment="Center" />
+                    <TextBox Height="23" HorizontalAlignment="Left" Margin="266,128,0,0" Name="txtLocalPort" Text="{Binding Path=LocalPort, Mode=TwoWay}" VerticalAlignment="Top" Width="49" VerticalContentAlignment="Center" />
                 </Grid>
             </TabItem>
         </TabControl>

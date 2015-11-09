@@ -36,7 +36,8 @@ namespace P2PIM.Client
         private BinaryReader binaryReader;
         private string userListstring;
 
-        private IPConfig ipConfig = IPConfig.GetInstance();
+        //系统配置
+        private SysConfig sysConfig;
         //登录用户
         private User loginUser;
         //用户列表
@@ -47,6 +48,8 @@ namespace P2PIM.Client
             InitializeComponent();
 
             this.tvUsers.ItemsSource = users;
+
+            sysConfig = ConfigHelper.GetInstanceFromConfig<SysConfig>();
         }
 
         /// <summary>
@@ -67,9 +70,9 @@ namespace P2PIM.Client
         /// <param name="e"></param>
         private void btnRefresh_Click(object sender, RoutedEventArgs e)
         {
-            IPAddress clientIP = IPAddress.Parse(ipConfig.LocalIP);
-            clientIPEndPoint = new IPEndPoint(clientIP, ipConfig.LocalPort);
-            loginUser = new User(ipConfig.UserName, clientIPEndPoint);
+            IPAddress clientIP = IPAddress.Parse(sysConfig.LocalIP);
+            clientIPEndPoint = new IPEndPoint(clientIP, sysConfig.LocalPort);
+            loginUser = new User(sysConfig.UserName, clientIPEndPoint);
 
             receiveUdpClient = new UdpClient(clientIPEndPoint);
             Thread receiveThread = new Thread(ReceiveMessage);
@@ -144,8 +147,8 @@ namespace P2PIM.Client
         {
             string message = obj.ToString();
             byte[] sendBytes = Encoding.Unicode.GetBytes(message);
-            IPAddress remoteIP = IPAddress.Parse(ipConfig.ServerIP);
-            IPEndPoint remoteIPEndPoint = new IPEndPoint(remoteIP, ipConfig.ServerPort);
+            IPAddress remoteIP = IPAddress.Parse(sysConfig.ServerIP);
+            IPEndPoint remoteIPEndPoint = new IPEndPoint(remoteIP, sysConfig.ServerPort);
             sendUdpClient.Send(sendBytes, sendBytes.Length, remoteIPEndPoint);
             sendUdpClient.Close();
         }

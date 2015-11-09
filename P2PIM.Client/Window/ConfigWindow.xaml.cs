@@ -13,6 +13,7 @@ using System.Windows.Shapes;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
+using P2PIM.Model;
 
 namespace P2PIM.Client
 {
@@ -29,13 +30,17 @@ namespace P2PIM.Client
 
         private void LoadConfig()
         {
-            this.gridIP.DataContext = IPConfig.GetInstance();
+            this.gridSysConfig.DataContext = ConfigHelper.GetInstanceFromConfig<SysConfig>();
+            this.gridUser.DataContext = ConfigHelper.GetInstanceFromConfig<User>();
         }
 
         private void Window_Closed(object sender, EventArgs e)
         {
-            IPConfig config = IPConfig.GetInstance();
-            config.Save();
+            SysConfig sys = this.gridSysConfig.DataContext as SysConfig;
+            ConfigHelper.SetInstanceToConfig<SysConfig>(sys);
+
+            User user = this.gridSysConfig.DataContext as User;
+            ConfigHelper.SetInstanceToConfig<User>(user);
         }
     }
 }
