@@ -1,31 +1,28 @@
 ﻿<Window x:Class="P2PIM.Client.ConfigWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="ConfigWindow" Height="274" Width="428" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen" Closed="Window_Closed">
-    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-        <TabControl  HorizontalAlignment="Stretch" Margin="0,0,0,0" Name="tabControl1" VerticalAlignment="Stretch" >
-            <TabItem Header="个人资料" Name="tabItem1">
-                <Grid  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="gridUser">
-                    <TextBlock Height="23" HorizontalAlignment="Left" Margin="110,30,0,0" Name="textBlock1" Text="用户名" VerticalAlignment="Top" />
-                    <TextBox Height="23" HorizontalAlignment="Left" Margin="170,27,0,0" x:Name="txtName" Text="{Binding Path=Name, Mode=TwoWay}" VerticalAlignment="Top" Width="120" />
-                    <TextBlock Height="23" HorizontalAlignment="Left" Margin="98,73,0,0" Name="textBlock2" Text="个性签名" VerticalAlignment="Top" />
-                    <TextBox Height="23" HorizontalAlignment="Left" Margin="170,70,0,0" x:Name="txtHeadPath" Text="{Binding Path=HeadPath, Mode=TwoWay}" VerticalAlignment="Top" Width="120" />
-                    <TextBlock Height="23" HorizontalAlignment="Left" Margin="98,116,0,0" Name="textBlock3" Text="个性头像" VerticalAlignment="Top" />
+        Title="ConfigWindow" Height="274" Width="428" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen" Closed="Window_Closed" Loaded="Window_Loaded">
+    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="gridConfig">
+        <TabControl  HorizontalAlignment="Stretch" Margin="0,0,0,0" VerticalAlignment="Stretch" >
+            <TabItem Header="个人资料" x:Name="tabItem1">
+                <Grid  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <TextBlock Height="23" HorizontalAlignment="Left" Margin="79,42,0,0" x:Name="textBlock1" Text="用户名" VerticalAlignment="Top" />
+                    <TextBox Height="23" HorizontalAlignment="Left" Margin="139,39,0,0" x:Name="txtName" Text="{Binding Path=UserName, Mode=TwoWay}" VerticalAlignment="Top" Width="181" />
+                    <TextBlock Height="23" HorizontalAlignment="Left" Margin="67,85,0,0" x:Name="textBlock2" Text="个性签名" VerticalAlignment="Top" />
+                    <TextBox Height="76" HorizontalAlignment="Left" Margin="139,82,0,0" x:Name="txtHeadPath" Text="{Binding Path=UserAutograph, Mode=TwoWay}" VerticalAlignment="Top" Width="181" />
                 </Grid>
             </TabItem>
-            <TabItem Header="系统设置" Name="tabItem2">
-                <Grid  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="gridSysConfig">
-                    <Label Content="服务器" Height="28" HorizontalAlignment="Left" Margin="84,40,0,0" Name="label1" VerticalAlignment="Top" VerticalContentAlignment="Center" />
-                    <Label Content="用户名" Height="28" HorizontalAlignment="Left" Margin="84,84,0,0" Name="label2" VerticalAlignment="Top" VerticalContentAlignment="Center" />
-                    <Label Content="本地IP" Height="28" HorizontalAlignment="Left" Margin="84,126,0,0" Name="label3" VerticalAlignment="Top" VerticalContentAlignment="Center" />
-                    <TextBox Height="23" HorizontalAlignment="Left" Margin="130,42,0,0" Name="txtServerIP" Text="{Binding Path=ServerIP, Mode=TwoWay}" VerticalAlignment="Top" Width="120" VerticalContentAlignment="Center" />
-                    <TextBox Height="23" HorizontalAlignment="Left" Margin="266,42,0,0" Name="txtServerPort" Text="{Binding Path=ServerPort, Mode=TwoWay}" VerticalAlignment="Top" Width="49" VerticalContentAlignment="Center" />
-                    <TextBox Height="23" HorizontalAlignment="Left" Margin="130,86,0,0" Name="txtUserName" Text="{Binding Path=UserName, Mode=TwoWay}" VerticalAlignment="Top" Width="120" VerticalContentAlignment="Center" />
-                    <TextBox Height="23" HorizontalAlignment="Left" Margin="130,128,0,0" Name="txtLocalIP" Text="{Binding Path=LocalIP, Mode=TwoWay}" VerticalAlignment="Top" Width="120" VerticalContentAlignment="Center" />
-                    <TextBox Height="23" HorizontalAlignment="Left" Margin="266,128,0,0" Name="txtLocalPort" Text="{Binding Path=LocalPort, Mode=TwoWay}" VerticalAlignment="Top" Width="49" VerticalContentAlignment="Center" />
+            <TabItem Header="系统设置" x:Name="tabItem2">
+                <Grid  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <Label Content="服务器" Height="28" HorizontalAlignment="Left" Margin="84,58,0,0" x:Name="label1" VerticalAlignment="Top" VerticalContentAlignment="Center" />
+                    <Label Content="本地IP" Height="28" HorizontalAlignment="Left" Margin="84,110,0,0" x:Name="label3" VerticalAlignment="Top" VerticalContentAlignment="Center" />
+                    <TextBox Height="23" HorizontalAlignment="Left" Margin="130,60,0,0" x:Name="txtServerIP" Text="{Binding Path=ServerIP, Mode=TwoWay}" VerticalAlignment="Top" Width="120" VerticalContentAlignment="Center" />
+                    <TextBox Height="23" HorizontalAlignment="Left" Margin="266,60,0,0" x:Name="txtServerPort" Text="{Binding Path=ServerPort, Mode=TwoWay}" VerticalAlignment="Top" Width="49" VerticalContentAlignment="Center" />
+                    <TextBox Height="23" HorizontalAlignment="Left" Margin="130,112,0,0" x:Name="txtLocalIP" Text="{Binding Path=LocalIP, Mode=TwoWay}" VerticalAlignment="Top" Width="120" VerticalContentAlignment="Center" />
+                    <TextBox Height="23" HorizontalAlignment="Left" Margin="266,112,0,0" x:Name="txtLocalPort" Text="{Binding Path=LocalPort, Mode=TwoWay}" VerticalAlignment="Top" Width="49" VerticalContentAlignment="Center" />
                 </Grid>
             </TabItem>
         </TabControl>
-        <DockPanel Height="100" HorizontalAlignment="Left" Margin="494,270,0,0" Name="dockPanel1" VerticalAlignment="Top" Width="200" />
+        <DockPanel Height="100" HorizontalAlignment="Left" Margin="494,270,0,0" x:Name="dockPanel1" VerticalAlignment="Top" Width="200" />
     </Grid>
 </Window>

@@ -22,25 +22,28 @@ namespace P2PIM.Client
     /// </summary>
     public partial class ConfigWindow : Window
     {
+        private SysConfig config;
+
+        public SysConfig Config
+        {
+            get { return config; }
+            set { config = value; }
+        }
+
         public ConfigWindow()
         {
             InitializeComponent();
-            LoadConfig();
-        }
-
-        private void LoadConfig()
-        {
-            this.gridSysConfig.DataContext = ConfigHelper.GetInstanceFromConfig<SysConfig>();
-            this.gridUser.DataContext = ConfigHelper.GetInstanceFromConfig<User>();
         }
 
         private void Window_Closed(object sender, EventArgs e)
         {
-            SysConfig sys = this.gridSysConfig.DataContext as SysConfig;
+            SysConfig sys = this.gridConfig.DataContext as SysConfig;
             ConfigHelper.SetInstanceToConfig<SysConfig>(sys);
+        }
 
-            User user = this.gridSysConfig.DataContext as User;
-            ConfigHelper.SetInstanceToConfig<User>(user);
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            this.gridConfig.DataContext = Config;
         }
     }
 }

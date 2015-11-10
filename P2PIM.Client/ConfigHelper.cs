@@ -38,6 +38,7 @@ namespace P2PIM.Client
         public static void SetInstanceToConfig<T>(T t)
         {
             Configuration cfa = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            AppSettingsSection appSettings = (AppSettingsSection)cfa.GetSection("appSettings");
             Type type = t.GetType();
             foreach (PropertyInfo pt in type.GetProperties())
             {
@@ -45,15 +46,15 @@ namespace P2PIM.Client
                 string value = pt.GetValue(t, null) == null ? string.Empty : pt.GetValue(t, null).ToString();
                 if (ConfigurationManager.AppSettings[name] == null)
                 {
-                    cfa.AppSettings.Settings.Add(name, value);
+                    appSettings.Settings.Add(name, value);
                 }
                 else
                 {
-                    cfa.AppSettings.Settings[name].Value = value;
+                    appSettings.Settings[name].Value = value;
                 }
             }
             cfa.Save();
-            ConfigurationManager.RefreshSection("AppSettings");
+            ConfigurationManager.RefreshSection("appSettings");
         }
     }
 }

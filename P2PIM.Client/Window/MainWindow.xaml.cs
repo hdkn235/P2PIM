@@ -28,7 +28,7 @@ namespace P2PIM.Client
     public partial class MainWindow : Window
     {
         //变量
-        private IPEndPoint clientIPEndPoint;
+        //private IPEndPoint clientIPEndPoint;
         private UdpClient receiveUdpClient;
         private UdpClient sendUdpClient;
         private TcpClient tcpClient;
@@ -37,19 +37,36 @@ namespace P2PIM.Client
         private string userListstring;
 
         //系统配置
-        private SysConfig sysConfig;
+        public SysConfig sysConfig;
         //登录用户
         private User loginUser;
         //用户列表
-        private ObservableCollection<User> users = new ObservableCollection<User>();
+        private ObservableCollection<User> users;
+        private List< ChatWindow> chatWindows = new List<ChatWindow>();
 
         public MainWindow()
         {
             InitializeComponent();
 
+            users = new ObservableCollection<User>();
             this.tvUsers.ItemsSource = users;
 
             sysConfig = ConfigHelper.GetInstanceFromConfig<SysConfig>();
+            this.gridUser.DataContext = sysConfig;
+
+        }
+
+        private void OnItemMouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            TreeViewItem item = sender as TreeViewItem;
+            User receiveUser = item.DataContext as User;
+            ChatWindow cw = new ChatWindow();
+            cw.SendUser = loginUser;
+            cw.ReceiveUser = receiveUser;
+            cw.Title = receiveUser.Name;
+            chatWindows.Add(cw);
+            cw.Show();
+            e.Handled = true;
         }
 
         /// <summary>
@@ -60,6 +77,7 @@ namespace P2PIM.Client
         private void btnConfig_Click(object sender, RoutedEventArgs e)
         {
             ConfigWindow cw = new ConfigWindow();
+            cw.Config = sysConfig;
             cw.ShowDialog();
         }
 
@@ -70,11 +88,14 @@ namespace P2PIM.Client
         /// <param name="e"></param>
         private void btnRefresh_Click(object sender, RoutedEventArgs e)
         {
+            loginUser = new User();
+            loginUser.Name = sysConfig.UserName;
+            loginUser.HeadPath = sysConfig.UserHeadPath;
+            loginUser.Autograph = sysConfig.UserAutograph;
             IPAddress clientIP = IPAddress.Parse(sysConfig.LocalIP);
-            clientIPEndPoint = new IPEndPoint(clientIP, sysConfig.LocalPort);
-            loginUser = new User(sysConfig.UserName, clientIPEndPoint);
+            loginUser.IPAndPort = new IPEndPoint(clientIP, sysConfig.LocalPort);
 
-            receiveUdpClient = new UdpClient(clientIPEndPoint);
+            receiveUdpClient = new UdpClient(loginUser.IPAndPort);
             Thread receiveThread = new Thread(ReceiveMessage);
             receiveThread.Start();
 
@@ -123,12 +144,22 @@ namespace P2PIM.Client
                             }
                             Thread getUserListThread = new Thread(GetUserList);
                             getUserListThread.Start();
+
                             break;
                         case UserLoginState.Login:
                             AddUserToTV(dto.LoginUser);
                             break;
                         case UserLoginState.Logout:
                             RemoveUserFromTV(dto.LoginUser);
+                            break;
+                        case UserLoginState.Talk:
+                            foreach (var cw in chatWindows)
+                            {
+                                if (cw.ReceiveUser == dto.LoginUser)
+                                {
+                                    cw.ShowTalkInfo(dto);
+                                }
+                            }
                             break;
                     }
                 }
@@ -245,12 +276,13 @@ namespace P2PIM.Client
             }
         }
 
+
         /// <summary>
         /// 窗体关闭
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Window_Closed(object sender, EventArgs e)
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             Logout();
         }

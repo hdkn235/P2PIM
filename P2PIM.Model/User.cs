@@ -35,8 +35,6 @@ namespace P2PIM.Model
         public User()
         {
             ID = Guid.NewGuid().ToString();
-            HeadPath = "/Resources/Heads/h1.png";
-            Autograph = "非一般的感觉";
         }
 
         /// <summary>
@@ -49,6 +47,16 @@ namespace P2PIM.Model
         {
             Name = name;
             IPAndPort = ipEndPoint;
+        }
+
+        public static bool operator ==(User u1, User u2)
+        {
+            return u1.ID.Equals(u2.ID);
+        }
+
+        public static bool operator !=(User u1, User u2)
+        {
+            return !u1.ID.Equals(u2.ID);
         }
     }
 }

@@ -9,7 +9,8 @@ namespace P2PIM.Model
     { 
         Login,
         Logout,
-        Accept
+        Accept,
+        Talk
     }
     public class UserDTO
     {
@@ -18,5 +19,9 @@ namespace P2PIM.Model
         public User LoginUser { get; set; }
 
         public int ServerTcpPort { get; set; }
+
+        public string SendTime { get; set; }
+
+        public string SendContent { get; set; }
     }
 }
